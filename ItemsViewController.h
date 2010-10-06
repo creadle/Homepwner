@@ -11,8 +11,10 @@
 
 @interface ItemsViewController : UITableViewController 
 {
+	UIView *headerView;
 	NSMutableArray *possessions;
 
 }
+- (UIView *)headerView;
 
 @end

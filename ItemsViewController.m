@@ -28,41 +28,139 @@
 	return [self init];
 }
 
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-        // Custom initialization
-    }
-    return self;
+- (UIView *)headerView
+{
+	if (headerView) {
+		return headerView;
+	}
+	
+	UIButton *editButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+	
+	[editButton setTitle:@"Edit"
+				forState:UIControlStateNormal];
+	
+	float w = [[UIScreen mainScreen] bounds].size.width;
+	CGRect editButtonFrame = CGRectMake(8.0, 8.0, w - 16.0, 30.0);
+	[editButton setFrame:editButtonFrame];
+	
+	[editButton addTarget:self
+				   action:@selector(editingButtonPressed:)
+		 forControlEvents:UIControlEventTouchUpInside];
+	
+	CGRect headerViewFrame = CGRectMake(0, 0, w, 48);
+	headerView = [[UIView alloc] initWithFrame:headerViewFrame];
+	[headerView addSubview:editButton];
+	
+	return headerView;
 }
-*/
 
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
+- (void)editingButtonPressed:(id)sender
+{
+	if ([self isEditing]) {
+		[sender setTitle:@"Edit"
+				forState:UIControlStateNormal];
+		[self setEditing:NO
+				animated:YES];
+	}else {
+		[sender setTitle:@"Done"
+				forState:UIControlStateNormal];
+		[self setEditing:YES
+				animated:YES];
+	}
+
 }
-*/
 
-/*
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)setEditing:(BOOL)flag animated:(BOOL)animated
+{
+	[super setEditing:flag animated:animated];
+	
+	if (flag) {
+		NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[possessions count] inSection:0];
+		NSArray *paths = [NSArray arrayWithObject:indexPath];
+		
+		[[self tableView] insertRowsAtIndexPaths:paths
+								withRowAnimation:UITableViewRowAnimationLeft];
+	} else {
+		NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[possessions count]
+													inSection:0];
+		NSArray *paths = [NSArray arrayWithObject:indexPath];
+		
+		[[self tableView] deleteRowsAtIndexPaths:paths
+								withRowAnimation:UITableViewRowAnimationFade];
+	}
+
 }
-*/
 
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+#pragma mark -
+#pragma mark UITableView methods
+
+- (BOOL)tableView:(UITableView *)tableview 
+	canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if ([indexPath row] < [possessions count]) {
+		return YES;
+	}
+	return NO;
 }
-*/
 
+- (NSIndexPath *)tableView:(UITableView *)tableView
+	targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath
+	   toProposedIndexPath:(NSIndexPath	*)proposedDestinationIndexPath
+{
+	if ([proposedDestinationIndexPath row] < [possessions count]) {
+		return proposedDestinationIndexPath;
+	}
+	NSIndexPath *betterIndexPath = [NSIndexPath indexPathForRow:[possessions count] - 1
+													  inSection:0];
+	return betterIndexPath;
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
+			  editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if ([self isEditing] && [indexPath row] == [possessions count]) {
+		return UITableViewCellEditingStyleInsert;
+	}
+	
+	return UITableViewCellEditingStyleDelete;
+}
+
+- (void)tableView:(UITableView *)tableView
+moveRowAtIndexPath:(NSIndexPath *)fromIndexPath
+	   toIndexPath:(NSIndexPath *)toIndexPath
+{
+	Possession *p = [possessions objectAtIndex:[fromIndexPath row]];
+	[p retain];
+	
+	[possessions removeObjectAtIndex:[fromIndexPath row]];
+	[possessions insertObject:p
+					  atIndex:[toIndexPath row]];
+	[p release];
+}
+
+- (void)tableView:(UITableView *)tableView
+	commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+	 forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if (editingStyle == UITableViewCellEditingStyleDelete) {
+		[possessions removeObjectAtIndex:[indexPath row]];
+		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+						 withRowAnimation:UITableViewRowAnimationFade];
+	} else if (editingStyle == UITableViewCellEditingStyleInsert) {
+		[possessions addObject:[Possession randomPossession]];
+		[tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] 
+						 withRowAnimation:UITableViewRowAnimationLeft];
+	}
+}
 - (NSInteger)tableView:(UITableView *)tableView 
  numberOfRowsInSection:(NSInteger)section
 {
-	return [possessions count];
+	int numberOfRows = [possessions count];
+	if ([self isEditing]) {
+		numberOfRows++;
+	}
+	
+	return numberOfRows;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -75,9 +173,24 @@
 									   reuseIdentifier:@"UITableViewCell"] autorelease];
 	}
 	
-	Possession *p = [possessions objectAtIndex:[indexPath row]];
-	[[cell textLabel] setText:[p description]];
+	if ([indexPath row] < [possessions count]) {
+		Possession *p = [possessions objectAtIndex:[indexPath row]];
+		[[cell textLabel] setText:[p description]];
+	} else {
+		[[cell textLabel] setText:@"Add New Item..."];
+	}
+
 	return cell;
+}
+
+- (UIView *)tableView:(UITableView *)tv viewForHeaderInSection:(NSInteger)sec
+{
+	return [self headerView];
+}
+
+- (CGFloat)tableView:(UITableView *)tv heightForHeaderInSection:(NSInteger)sec
+{
+	return [[self headerView] frame].size.height;
 }
 
 - (void)didReceiveMemoryWarning {

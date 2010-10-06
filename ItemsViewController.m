@@ -16,9 +16,19 @@
 {
 	[super initWithStyle:UITableViewStyleGrouped];
 	
-	possessions = [[NSMutableArray alloc] init];
+	cheapPossessions = [[NSMutableArray alloc] init];
+	expensivePossessions = [[NSMutableArray alloc] init];
 	for (int i = 0; i < 10; i++) {
-		[possessions addObject:[Possession randomPossession]];
+		Possession *possession = [Possession randomPossession];
+		if ([possession valueInDollars] > 50) {
+			[expensivePossessions addObject:possession];
+			NSLog(@"Expensive possession added with value: %d", [possession valueInDollars]);
+		}
+		else {
+			[cheapPossessions addObject:possession];
+			NSLog(@"Cheap possession added with value: %d", [possession valueInDollars]);
+		}
+
 	}
 	return self;
 }
@@ -59,10 +69,22 @@
 }
 */
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+	return 2;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView 
  numberOfRowsInSection:(NSInteger)section
 {
-	return [possessions count];
+	if (section == 0) {
+		return [cheapPossessions count];
+	}
+	else {
+		NSLog(@"Returning [expensivePossessions count].");
+		return [expensivePossessions count];
+	}
+
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -74,8 +96,15 @@
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
 									   reuseIdentifier:@"UITableViewCell"] autorelease];
 	}
+	Possession *p;
 	
-	Possession *p = [possessions objectAtIndex:[indexPath row]];
+	if ([indexPath section] == 0) {
+		p = [cheapPossessions objectAtIndex:[indexPath row]];
+	}
+	else {
+		p = [expensivePossessions objectAtIndex:[indexPath row]];
+	}
+
 	[[cell textLabel] setText:[p description]];
 	return cell;
 }

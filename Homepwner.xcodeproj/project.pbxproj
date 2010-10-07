@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		171F6F24125E21A000994261 /* ItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 171F6F22125E21A000994261 /* ItemDetailViewController.m */; };
+		171F6F25125E21A000994261 /* ItemDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 171F6F23125E21A000994261 /* ItemDetailViewController.xib */; };
+		171F6F35125E620E00994261 /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 171F6F34125E620E00994261 /* ImageCache.m */; };
 		17D8F2BC125BD1C60084E057 /* ItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D8F2BB125BD1C60084E057 /* ItemsViewController.m */; };
 		17D8F2C3125BD79D0084E057 /* Possession.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D8F2C2125BD79D0084E057 /* Possession.m */; };
 		1D3623260D0F684500981E51 /* HomepwnerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* HomepwnerAppDelegate.m */; };
@@ -18,6 +21,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		171F6F21125E21A000994261 /* ItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemDetailViewController.h; sourceTree = "<group>"; };
+		171F6F22125E21A000994261 /* ItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemDetailViewController.m; sourceTree = "<group>"; };
+		171F6F23125E21A000994261 /* ItemDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ItemDetailViewController.xib; path = Classes/ItemDetailViewController.xib; sourceTree = "<group>"; };
+		171F6F33125E620E00994261 /* ImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageCache.h; path = ../ImageCache.h; sourceTree = "<group>"; };
+		171F6F34125E620E00994261 /* ImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageCache.m; path = ../ImageCache.m; sourceTree = "<group>"; };
 		17D8F2BA125BD1C60084E057 /* ItemsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemsViewController.h; path = ../ItemsViewController.h; sourceTree = "<group>"; };
 		17D8F2BB125BD1C60084E057 /* ItemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemsViewController.m; path = ../ItemsViewController.m; sourceTree = "<group>"; };
 		17D8F2C1125BD79D0084E057 /* Possession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Possession.h; sourceTree = "<group>"; };
@@ -51,6 +59,10 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				171F6F33125E620E00994261 /* ImageCache.h */,
+				171F6F34125E620E00994261 /* ImageCache.m */,
+				171F6F21125E21A000994261 /* ItemDetailViewController.h */,
+				171F6F22125E21A000994261 /* ItemDetailViewController.m */,
 				17D8F2C1125BD79D0084E057 /* Possession.h */,
 				17D8F2C2125BD79D0084E057 /* Possession.m */,
 				17D8F2BA125BD1C60084E057 /* ItemsViewController.h */,
@@ -93,6 +105,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				171F6F23125E21A000994261 /* ItemDetailViewController.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Homepwner-Info.plist */,
 			);
@@ -159,6 +172,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
+				171F6F25125E21A000994261 /* ItemDetailViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,6 +187,8 @@
 				1D3623260D0F684500981E51 /* HomepwnerAppDelegate.m in Sources */,
 				17D8F2BC125BD1C60084E057 /* ItemsViewController.m in Sources */,
 				17D8F2C3125BD79D0084E057 /* Possession.m in Sources */,
+				171F6F24125E21A000994261 /* ItemDetailViewController.m in Sources */,
+				171F6F35125E620E00994261 /* ImageCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

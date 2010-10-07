@@ -22,7 +22,9 @@
     // Override point for customization after application launch.
 	itemsViewController = [[ItemsViewController alloc] init];
 	
-	[window addSubview:[itemsViewController view]];
+	UINavigationController *navController = [[UINavigationController alloc] 
+											 initWithRootViewController:itemsViewController];
+	[window addSubview:[navController view]];
     
     [window makeKeyAndVisible];
     

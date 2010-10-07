@@ -8,6 +8,7 @@
 
 #import "ItemsViewController.h"
 #import "Possession.h"
+#import "ItemDetailViewController.h"
 
 
 @implementation ItemsViewController
@@ -20,6 +21,9 @@
 	for (int i = 0; i < 10; i++) {
 		[possessions addObject:[Possession randomPossession]];
 	}
+	[[self navigationItem] setLeftBarButtonItem:[self editButtonItem]];
+	[[self navigationItem] setTitle:@"Homepwner"];
+	
 	return self;
 }
 
@@ -28,47 +32,6 @@
 	return [self init];
 }
 
-- (UIView *)headerView
-{
-	if (headerView) {
-		return headerView;
-	}
-	
-	UIButton *editButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-	
-	[editButton setTitle:@"Edit"
-				forState:UIControlStateNormal];
-	
-	float w = [[UIScreen mainScreen] bounds].size.width;
-	CGRect editButtonFrame = CGRectMake(8.0, 8.0, w - 16.0, 30.0);
-	[editButton setFrame:editButtonFrame];
-	
-	[editButton addTarget:self
-				   action:@selector(editingButtonPressed:)
-		 forControlEvents:UIControlEventTouchUpInside];
-	
-	CGRect headerViewFrame = CGRectMake(0, 0, w, 48);
-	headerView = [[UIView alloc] initWithFrame:headerViewFrame];
-	[headerView addSubview:editButton];
-	
-	return headerView;
-}
-
-- (void)editingButtonPressed:(id)sender
-{
-	if ([self isEditing]) {
-		[sender setTitle:@"Edit"
-				forState:UIControlStateNormal];
-		[self setEditing:NO
-				animated:YES];
-	}else {
-		[sender setTitle:@"Done"
-				forState:UIControlStateNormal];
-		[self setEditing:YES
-				animated:YES];
-	}
-
-}
 
 - (void)setEditing:(BOOL)flag animated:(BOOL)animated
 {
@@ -91,8 +54,28 @@
 
 }
 
+- (void) viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	
+	[[self tableView] reloadData];
+}
+
 #pragma mark -
 #pragma mark UITableView methods
+
+- (void)tableView:(UITableView *)aTableView
+	didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if (!detailViewController) {
+		detailViewController = [[ItemDetailViewController alloc] init];
+	}
+	
+	[detailViewController setEditingPossession:[possessions objectAtIndex:[indexPath row]]];
+	
+	[[self navigationController] pushViewController:detailViewController
+										   animated:YES];
+}
 
 - (BOOL)tableView:(UITableView *)tableview 
 	canMoveRowAtIndexPath:(NSIndexPath *)indexPath
@@ -183,15 +166,8 @@ moveRowAtIndexPath:(NSIndexPath *)fromIndexPath
 	return cell;
 }
 
-- (UIView *)tableView:(UITableView *)tv viewForHeaderInSection:(NSInteger)sec
-{
-	return [self headerView];
-}
-
-- (CGFloat)tableView:(UITableView *)tv heightForHeaderInSection:(NSInteger)sec
-{
-	return [[self headerView] frame].size.height;
-}
+#pragma mark -
+#pragma mark Cleanup
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.

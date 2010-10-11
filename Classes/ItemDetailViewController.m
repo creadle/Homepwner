@@ -8,6 +8,7 @@
 
 #import "ItemDetailViewController.h"
 #import "Possession.h"
+#import "ImageCache.h"
 
 
 @implementation ItemDetailViewController
@@ -26,6 +27,54 @@
 	[cameraBarButtonItem release];
 	
 	return self;
+}
+
+- (void)takePicture:(id)sender
+{
+	[[self view] endEditing:YES];
+	
+	UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+	
+	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+		[imagePicker setSourceType:UIImagePickerControllerSourceTypeCamera];
+	} else {
+		[imagePicker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+	}
+	[imagePicker setDelegate:self];
+	
+	[self presentModalViewController:imagePicker animated:YES];
+	[imagePicker release];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker
+didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+	NSString *oldKey = [editingPossession imageKey];
+	
+	if (oldKey) {
+		[[ImageCache sharedImageCache] deleteImageForKey:oldKey];
+	}
+	UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+	
+	CFUUIDRef newUniqueID = CFUUIDCreate(kCFAllocatorDefault);
+	CFStringRef newUniqueIDString = CFUUIDCreateString(kCFAllocatorDefault, newUniqueID);
+	
+	[editingPossession setImageKey:(NSString *)newUniqueIDString];
+	
+	CFRelease(newUniqueIDString);
+	CFRelease(newUniqueID);
+	
+	[[ImageCache sharedImageCache] setImage:image 
+									 forKey:[editingPossession imageKey]];
+	
+	[imageView setImage:image];
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+	[textField resignFirstResponder];
+	return YES;
 }
 
 /*
@@ -60,6 +109,16 @@
 	[dateLabel setText:[dateFormatter stringFromDate:[editingPossession dateCreated]]];
 	
 	[[self navigationItem] setTitle:[editingPossession possessionName]];
+	
+	NSString *imageKey = [editingPossession imageKey];
+	
+	if (imageKey) {
+		UIImage *imageToDisplay = [[ImageCache sharedImageCache] imageForKey:imageKey];
+		[imageView setImage:imageToDisplay];
+	}else {
+		[imageView setImage:nil];
+	}
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated

@@ -10,7 +10,7 @@
 
 @class Possession;
 
-@interface ItemDetailViewController : UIViewController 
+@interface ItemDetailViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 {
 	IBOutlet UITextField *nameField;
 	IBOutlet UITextField *serialNumberField;

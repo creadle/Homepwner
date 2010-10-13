@@ -72,6 +72,36 @@
 								possessionName, serialNumber, valueInDollars, dateCreated];
 }
 
+#pragma mark -
+#pragma mark NSCoding protocal methods
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+	[aCoder encodeObject:possessionName forKey:@"possessionName"];
+	[aCoder encodeObject:serialNumber forKey:@"serialNumber"];
+	[aCoder encodeInt:valueInDollars forKey:@"valueInDollars"];
+	[aCoder encodeObject:dateCreated forKey:@"dateCreated"];
+	[aCoder encodeObject:imageKey forKey:@"imageKey"];
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+	[super init];
+	
+	[self setPossessionName:[aDecoder decodeObjectForKey:@"possessionName"]];
+	[self setSerialNumber:[aDecoder decodeObjectForKey:@"serialNumber"]];
+	[self setValueInDollars:[aDecoder decodeIntForKey:@"valueInDollars"]];
+	[self setImageKey:[aDecoder decodeObjectForKey:@"imageKey"]];
+	
+	dateCreated = [[aDecoder decodeObjectForKey:@"dateCreated"] retain];
+	
+	return self;
+}
+
+
+#pragma mark -
+#pragma mark Cleanup methods
+
 - (void)dealloc {
 	[imageKey release];
 	[possessionName release]; 

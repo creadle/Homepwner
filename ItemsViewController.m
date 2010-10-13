@@ -12,15 +12,12 @@
 
 
 @implementation ItemsViewController
+@synthesize possessions;
 
 - (id)init
 {
 	[super initWithStyle:UITableViewStyleGrouped];
 	
-	possessions = [[NSMutableArray alloc] init];
-	for (int i = 0; i < 10; i++) {
-		[possessions addObject:[Possession randomPossession]];
-	}
 	[[self navigationItem] setLeftBarButtonItem:[self editButtonItem]];
 	[[self navigationItem] setTitle:@"Homepwner"];
 	

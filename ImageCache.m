@@ -25,16 +25,36 @@ static ImageCache *sharedImageCache;
 - (void)setImage:(UIImage *)i forKey:(NSString *)s
 {
 	[dictionary setObject:i forKey:s];
+	
+	NSString *imagePath = pathInDocumentDirectory(s);
+	
+	NSData *d = UIImageJPEGRepresentation(i, 0.5);
+	
+	[d writeToFile:imagePath atomically:YES];
 }
 
 - (UIImage *)imageForKey:(NSString *)s
 {
-	return [dictionary objectForKey:s];
+	UIImage *result = [dictionary objectForKey:s];
+	
+	if (!result) {
+		result = [UIImage imageWithContentsOfFile:pathInDocumentDirectory(s)];
+		if (result) {
+			[dictionary setObject:result forKey:s];
+		}else {
+			NSLog(@"Error: unablel to find %@", pathInDocumentDirectory(s));
+		}
+	}
+	return result;
+
 }
 
 - (void)deleteImageForKey:(NSString *)s
 {
 	[dictionary removeObjectForKey:s];
+	NSString *path = pathInDocumentDirectory(s);
+	[[NSFileManager defaultManager] removeItemAtPath:path 
+											   error:nil];
 }
 
 #pragma mark Singleton stuff

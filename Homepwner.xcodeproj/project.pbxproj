@@ -12,6 +12,7 @@
 		171F6F35125E620E00994261 /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 171F6F34125E620E00994261 /* ImageCache.m */; };
 		17D8F2BC125BD1C60084E057 /* ItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D8F2BB125BD1C60084E057 /* ItemsViewController.m */; };
 		17D8F2C3125BD79D0084E057 /* Possession.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D8F2C2125BD79D0084E057 /* Possession.m */; };
+		17DD189F12665C3700962E3B /* FileHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 17DD189E12665C3700962E3B /* FileHelpers.m */; };
 		1D3623260D0F684500981E51 /* HomepwnerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* HomepwnerAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -30,6 +31,8 @@
 		17D8F2BB125BD1C60084E057 /* ItemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemsViewController.m; path = ../ItemsViewController.m; sourceTree = "<group>"; };
 		17D8F2C1125BD79D0084E057 /* Possession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Possession.h; sourceTree = "<group>"; };
 		17D8F2C2125BD79D0084E057 /* Possession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Possession.m; sourceTree = "<group>"; };
+		17DD189D12665C3700962E3B /* FileHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileHelpers.h; sourceTree = "<group>"; };
+		17DD189E12665C3700962E3B /* FileHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileHelpers.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* HomepwnerAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomepwnerAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* HomepwnerAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomepwnerAppDelegate.m; sourceTree = "<group>"; };
@@ -59,6 +62,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				17DD189D12665C3700962E3B /* FileHelpers.h */,
+				17DD189E12665C3700962E3B /* FileHelpers.m */,
 				171F6F33125E620E00994261 /* ImageCache.h */,
 				171F6F34125E620E00994261 /* ImageCache.m */,
 				171F6F21125E21A000994261 /* ItemDetailViewController.h */,
@@ -189,6 +194,7 @@
 				17D8F2C3125BD79D0084E057 /* Possession.m in Sources */,
 				171F6F24125E21A000994261 /* ItemDetailViewController.m in Sources */,
 				171F6F35125E620E00994261 /* ImageCache.m in Sources */,
+				17DD189F12665C3700962E3B /* FileHelpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

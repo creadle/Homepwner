@@ -17,4 +17,5 @@
 
 }
 
+@property (nonatomic, retain) NSMutableArray *possessions;
 @end

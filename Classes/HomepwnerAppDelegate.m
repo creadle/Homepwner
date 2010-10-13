@@ -20,15 +20,31 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     
     // Override point for customization after application launch.
+	NSString *possessionPath = [self possessionArrayPath];
+	
+	NSMutableArray *possessionArray = [NSKeyedUnarchiver unarchiveObjectWithFile:possessionPath];
+	
+	if (!possessionArray){
+		possessionArray = [NSMutableArray array];
+	}
+	
 	itemsViewController = [[ItemsViewController alloc] init];
+	
+	[itemsViewController setPossessions:possessionArray];
 	
 	UINavigationController *navController = [[UINavigationController alloc] 
 											 initWithRootViewController:itemsViewController];
+	
 	[window addSubview:[navController view]];
-    
-    [window makeKeyAndVisible];
-    
-    return YES;
+	[window makeKeyAndVisible];
+	
+	return YES;
+
+}
+
+- (NSString *)possessionArrayPath
+{
+	return pathInDocumentDirectory(@"Possessions.data");
 }
 
 
@@ -67,6 +83,10 @@
      Called when the application is about to terminate.
      See also applicationDidEnterBackground:.
      */
+	NSString *possessionPath = [self possessionArrayPath];
+	NSMutableArray *possessionArray = [itemsViewController possessions];
+	
+	[NSKeyedArchiver archiveRootObject:possessionArray toFile:possessionPath];
 }
 
 

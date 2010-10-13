@@ -17,11 +17,16 @@
 	IBOutlet UITextField *valueField;
 	IBOutlet UILabel *dateLabel;
 	IBOutlet UIImageView *imageView;
+	IBOutlet UIButton *deleteButton;
 	
+		
 	Possession *editingPossession;
 
 }
 
+- (IBAction)deleteButtonPressed:(id)sender;
+
 @property (nonatomic, assign) Possession *editingPossession;
+
 
 @end

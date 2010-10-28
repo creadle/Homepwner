@@ -17,7 +17,19 @@ static ImageCache *sharedImageCache;
 {
 	[super init];
 	dictionary = [[NSMutableDictionary alloc] init];
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	[nc addObserver:self
+		   selector:@selector(clearCache:)
+			   name:UIApplicationDidReceiveMemoryWarningNotification
+			 object:nil];
+	
 	return self;
+}
+
+- (void)clearCache:(NSNotification *)note
+{
+	NSLog(@"Flushing %d images out of the cache", [dictionary count]);
+	[dictionary removeAllObjects];
 }
 
 #pragma mark Accessing the casche
@@ -85,6 +97,13 @@ static ImageCache *sharedImageCache;
 - (void)release
 {
 	//no op
+}
+
+- (void)dealloc
+{
+	[dictionary release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[super dealloc];
 }
 
 @end

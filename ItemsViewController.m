@@ -9,6 +9,7 @@
 #import "ItemsViewController.h"
 #import "Possession.h"
 #import "ItemDetailViewController.h"
+#import "HomepwnerItemCell.h"
 
 
 @implementation ItemsViewController
@@ -146,20 +147,30 @@ moveRowAtIndexPath:(NSIndexPath *)fromIndexPath
 - (UITableViewCell *)tableView:(UITableView *)tableView
 		 cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
+	if ([indexPath row] >= [possessions count]) {
+		UITableViewCell *basicCell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
+		
+		if (!basicCell) {
+			basicCell = [[[UITableViewCell alloc]
+						  initWithStyle:UITableViewCellStyleDefault
+						  reuseIdentifier:@"UITableViewCell"] autorelease];
+		}
+		
+		[[basicCell textLabel] setText:@"Add New Item..."];
+		return basicCell;
+	}
+	
+	HomepwnerItemCell *cell = (HomepwnerItemCell *)[tableView dequeueReusableCellWithIdentifier:@"HomepwnerItemCell"];
+	
 	
 	if (!cell) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-									   reuseIdentifier:@"UITableViewCell"] autorelease];
+		cell = [[[HomepwnerItemCell alloc] initWithStyle:UITableViewCellStyleDefault
+										 reuseIdentifier:@"HomepwnerItemCell"] autorelease];
 	}
 	
-	if ([indexPath row] < [possessions count]) {
-		Possession *p = [possessions objectAtIndex:[indexPath row]];
-		[[cell textLabel] setText:[p description]];
-	} else {
-		[[cell textLabel] setText:@"Add New Item..."];
-	}
-
+	Possession *p = [possessions objectAtIndex:[indexPath row]];
+	[cell setPossession:p];
+	
 	return cell;
 }
 

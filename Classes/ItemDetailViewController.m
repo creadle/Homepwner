@@ -68,6 +68,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 									 forKey:[editingPossession imageKey]];
 	
 	[imageView setImage:image];
+	
+	[editingPossession setThumbnailDataFromImage:image];
+	
 	[self dismissModalViewControllerAnimated:YES];
 }
 

@@ -51,16 +51,20 @@
 	innerFrame.origin.x += innerFrame.size.width + inset;
 	innerFrame.size.width = w - (h + valueWidth + inset * 4.0);
 	[nameLabel setFrame:innerFrame];
+
 	
 	innerFrame.origin.x += innerFrame.size.width + inset;
 	innerFrame.size.width = valueWidth;
 	[valueLabel setFrame:innerFrame];
+
 }
 
 - (void)setPossession:(Possession *)possession
 {
 	[valueLabel setText:[NSString stringWithFormat:@"$%d", [possession valueInDollars]]];
 	[nameLabel setText:[possession possessionName]];
+	[imageView setImage:[possession thumbnail]];
+
 }
 
 

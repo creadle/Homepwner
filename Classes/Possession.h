@@ -16,20 +16,22 @@
 	int valueInDollars;
 	NSDate *dateCreated;
 	NSString *imageKey;
+	UIImage *thumbnail;
+	NSData *thumbnailData;
 }
 @property (nonatomic, copy) NSString *possessionName;
 @property (nonatomic, copy) NSString *serialNumber;
 @property (nonatomic) int valueInDollars;
 @property (readonly) NSDate *dateCreated;
 @property (nonatomic, copy) NSString *imageKey;
+@property (readonly) UIImage *thumbnail;
 
 
+- (void)setThumbnailDataFromImage:(UIImage *)image;
 + (id)randomPossession;
-
 - (id)initWithPossessionName:(NSString *)name 
 							valueInDollars:(int)value
 								serialNumber:(NSString *)sNumber;
-
 - (id)initWithPossessionName:(NSString *)name;
 
 @end

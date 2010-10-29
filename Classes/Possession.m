@@ -13,6 +13,38 @@
 
 @synthesize possessionName, serialNumber, valueInDollars, dateCreated, imageKey;
 
+- (void)setThumbnailDataFromImage:(UIImage *)image
+{
+	[thumbnail release];
+	[thumbnailData release];
+	
+	CGRect imageRect = CGRectMake(0, 0, 70, 70);
+	UIGraphicsBeginImageContext(imageRect.size);
+	[image drawInRect:imageRect];
+	
+	thumbnail = UIGraphicsGetImageFromCurrentImageContext();
+	
+	[thumbnail retain];
+	
+	UIGraphicsEndImageContext();
+	
+	thumbnailData = UIImageJPEGRepresentation(thumbnail, 0.5);
+	[thumbnailData retain];
+}
+
+- (UIImage *)thumbnail
+{
+	if (!thumbnailData) {
+		return nil;
+	}
+	
+	if (!thumbnail) {
+		thumbnail = [[UIImage imageWithData:thumbnailData] retain];
+	}
+	
+	return thumbnail;
+}
+
 + (id)randomPossession 
 {
 	NSArray *randomAdjectiveList = [NSArray arrayWithObjects:@"Fluffy",
@@ -82,6 +114,7 @@
 	[aCoder encodeInt:valueInDollars forKey:@"valueInDollars"];
 	[aCoder encodeObject:dateCreated forKey:@"dateCreated"];
 	[aCoder encodeObject:imageKey forKey:@"imageKey"];
+	[aCoder encodeObject:thumbnailData forKey:@"thumbnailData"];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -92,8 +125,9 @@
 	[self setSerialNumber:[aDecoder decodeObjectForKey:@"serialNumber"]];
 	[self setValueInDollars:[aDecoder decodeIntForKey:@"valueInDollars"]];
 	[self setImageKey:[aDecoder decodeObjectForKey:@"imageKey"]];
-	
 	dateCreated = [[aDecoder decodeObjectForKey:@"dateCreated"] retain];
+	
+	thumbnailData = [[aDecoder decodeObjectForKey:@"thumbnailData"] retain];
 	
 	return self;
 }
@@ -103,6 +137,8 @@
 #pragma mark Cleanup methods
 
 - (void)dealloc {
+	[thumbnail release];
+	[thumbnailData release];
 	[imageKey release];
 	[possessionName release]; 
 	[serialNumber release];

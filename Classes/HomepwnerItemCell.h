@@ -14,6 +14,8 @@
 	UILabel *valueLabel;
 	UILabel *nameLabel;
 	UIImageView *imageView;
+	UILabel *serialLabel;
+	UILabel *dateLabel;
 
 }
 

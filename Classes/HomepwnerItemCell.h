@@ -20,5 +20,6 @@
 }
 
 - (void)setPossession:(Possession *)possession;
+- (void)accessoryViewTapped;
 
 @end

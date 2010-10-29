@@ -62,6 +62,14 @@
 #pragma mark -
 #pragma mark UITableView methods
 
+- (void)tableView:(UITableView *)tableView 
+accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+	HomepwnerItemCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+	[cell accessoryViewTapped];
+	
+}
+
 - (void)tableView:(UITableView *)aTableView
 	didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

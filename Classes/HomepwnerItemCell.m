@@ -32,7 +32,24 @@
 		[imageView setContentMode:UIViewContentModeScaleAspectFit];
 		[imageView release];
 		[self setAccessoryType:UITableViewCellAccessoryDetailDisclosureButton];
-    }
+    } else {
+		serialLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		[[self contentView] addSubview:serialLabel];
+		[serialLabel release];
+		
+		dateLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		[[self contentView] addSubview:dateLabel];
+		[dateLabel release];
+		
+		imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+		[[self contentView] addSubview:imageView];
+		
+		[imageView setContentMode:UIViewContentModeScaleAspectFit];
+		[imageView release];
+		[self setAccessoryType:UITableViewCellAccessoryDetailDisclosureButton];
+		
+	}
+
     return self;
 }
 
@@ -91,11 +108,23 @@
 
 - (void)setPossession:(Possession *)possession
 {
+/*	
 	[valueLabel setText:[NSString stringWithFormat:@"$%d", [possession valueInDollars]]];
 	[nameLabel setText:[possession possessionName]];
 	[imageView setImage:[possession thumbnail]];
 	[serialLabel setText:[possession serialNumber]];
 	[dateLabel setText:[NSString stringWithFormat:@"$%d", [possession dateCreated]]];
+ */
+	if ([possession defaultDisplay]) {
+		valueWidth = 40.0;
+		[valueLabel setText:[NSString stringWithFormat:@"%d", [possession valueInDollars]]];
+		[nameLabel setText:[possession possessionName]];
+	} else {
+		valueWidth = 180.0;
+		[valueLabel setText:[NSString stringWithFormat:@"Created on: %@", [possession dateCreated]]];
+	}
+
+	
 
 }
 

@@ -65,9 +65,16 @@
 - (void)tableView:(UITableView *)tableView 
 accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-	HomepwnerItemCell *cell = (HomepwnerItemCell *)[tableView cellForRowAtIndexPath:indexPath];
-	[cell accessoryViewTapped];
+	Possession *p = [possessions objectAtIndex:[indexPath row]];
+	if ([p defaultDisplay]) {
+		[p setDefaultDisplay:NO];
+	} else {
+		[p setDefaultDisplay:YES];
+	}
 	
+	[tableView cellForRowAtIndexPath:indexPath];
+	[tableView reloadData];
+
 }
 
 - (void)tableView:(UITableView *)aTableView

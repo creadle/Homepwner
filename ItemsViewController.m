@@ -65,7 +65,7 @@
 - (void)tableView:(UITableView *)tableView 
 accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-	HomepwnerItemCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+	HomepwnerItemCell *cell = (HomepwnerItemCell *)[tableView cellForRowAtIndexPath:indexPath];
 	[cell accessoryViewTapped];
 	
 }

@@ -16,10 +16,13 @@
 	UIImageView *imageView;
 	UILabel *serialLabel;
 	UILabel *dateLabel;
+	BOOL isAccessoryView;
 
 }
 
+@property (nonatomic) BOOL isAccessoryView;
+
 - (void)setPossession:(Possession *)possession;
-- (void)accessoryViewTapped;
+- (void)accessoryViewTapped:(Possession *)possession;
 
 @end

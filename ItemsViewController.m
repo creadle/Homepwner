@@ -66,14 +66,13 @@
 accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
 	Possession *p = [possessions objectAtIndex:[indexPath row]];
-	if ([p defaultDisplay]) {
-		[p setDefaultDisplay:NO];
-	} else {
-		[p setDefaultDisplay:YES];
-	}
-	
-	[tableView cellForRowAtIndexPath:indexPath];
-	[tableView reloadData];
+	HomepwnerItemCell *cell = (HomepwnerItemCell *)[tableView cellForRowAtIndexPath:indexPath];
+	[cell accessoryViewTapped:p];
+		
+	NSArray *indexArray = [[NSArray alloc]initWithObjects:indexPath, nil];
+		
+	[tableView reloadRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationRight];
+	[indexArray release];
 
 }
 

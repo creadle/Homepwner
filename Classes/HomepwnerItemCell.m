@@ -12,7 +12,7 @@
 
 @implementation HomepwnerItemCell
 
-@synthesize isAccessoryView;
+@synthesize isAccessoryView, valueLabel, nameLabel;
 
 
 - (id)initWithStyle:(UITableViewCellStyle)style 
@@ -35,6 +35,7 @@
 		[imageView setContentMode:UIViewContentModeScaleAspectFit];
 		[imageView release];
 		[self setAccessoryType:UITableViewCellAccessoryDetailDisclosureButton];
+		[self setIsAccessoryView:NO];
 		
     } 
     return self;
@@ -42,6 +43,7 @@
 
 - (void)accessoryViewTapped:(Possession *)possession
 {
+	
 	if (isAccessoryView) {
 		[valueLabel setText:[NSString stringWithFormat:@"$%d", [possession valueInDollars]]];
 		[nameLabel setText:[possession possessionName]];
@@ -51,7 +53,7 @@
 		[valueLabel	setText:[NSString stringWithFormat:@"%d", [possession serialNumber]]];
 		[self setIsAccessoryView:YES];
 	}
-	
+
 }
 
 - (void)layoutSubviews
@@ -70,7 +72,6 @@
 	innerFrame.origin.x += innerFrame.size.width + inset;
 	innerFrame.size.width = w - (h + valueWidth + inset * 4.0);
 	[nameLabel setFrame:innerFrame];
-
 	
 	innerFrame.origin.x += innerFrame.size.width + inset;
 	innerFrame.size.width = valueWidth;
@@ -82,16 +83,14 @@
 {
 
 	if (isAccessoryView) {
-		[nameLabel setText:[NSString stringWithFormat:@"Created on: %d", [possession dateCreated]]];
+		[nameLabel setText:[NSString stringWithFormat:@"Created: %@", [possession dateCreated]]];
 		[valueLabel	setText:[NSString stringWithFormat:@"%d", [possession serialNumber]]];
 	} else {
 		[valueLabel setText:[NSString stringWithFormat:@"$%d", [possession valueInDollars]]];
 		[nameLabel setText:[possession possessionName]];
-		[imageView setImage:[possession thumbnail]];
-				
-		[self setIsAccessoryView:NO];
-				
 	}
+	
+	[imageView setImage:[possession thumbnail]];
 
  	
 

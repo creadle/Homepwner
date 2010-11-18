@@ -21,6 +21,8 @@
 }
 
 @property (nonatomic) BOOL isAccessoryView;
+@property (nonatomic, assign) UILabel *valueLabel;
+@property (nonatomic, assign) UILabel *nameLabel;
 
 - (void)setPossession:(Possession *)possession;
 - (void)accessoryViewTapped:(Possession *)possession;

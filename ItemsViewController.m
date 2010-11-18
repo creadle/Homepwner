@@ -67,13 +67,18 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
 	Possession *p = [possessions objectAtIndex:[indexPath row]];
 	HomepwnerItemCell *cell = (HomepwnerItemCell *)[tableView cellForRowAtIndexPath:indexPath];
-	[cell accessoryViewTapped:p];
+	//[cell accessoryViewTapped:p];
+	
+	if ([cell isAccessoryView]) {
+		[[cell valueLabel] setText:[NSString stringWithFormat:@"$%d", [p valueInDollars]]];
+		[[cell nameLabel] setText:[p possessionName]];
+		[cell setIsAccessoryView:NO];
+	} else {
+		[[cell nameLabel] setText:[NSString stringWithFormat:@"%@", [p dateCreated]]];
+		[[cell valueLabel] setText:[NSString stringWithFormat:@"%d", [p serialNumber]]];
+		[cell setIsAccessoryView:YES];
+	}
 		
-	NSArray *indexArray = [[NSArray alloc]initWithObjects:indexPath, nil];
-		
-	[tableView reloadRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationRight];
-	[indexArray release];
-
 }
 
 - (void)tableView:(UITableView *)aTableView

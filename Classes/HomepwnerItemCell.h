@@ -7,17 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
 @class Possession;
 @interface HomepwnerItemCell : UITableViewCell 
 {
 	UILabel *valueLabel;
 	UILabel *nameLabel;
-	UIImageView *imageView;
+	UIView *imageView;
+	UIImageView *imageSubview;
 	UILabel *serialLabel;
 	UILabel *dateLabel;
 	BOOL isAccessoryView;
-
+	CAGradientLayer *glossyLayer;
 }
 
 @property (nonatomic) BOOL isAccessoryView;

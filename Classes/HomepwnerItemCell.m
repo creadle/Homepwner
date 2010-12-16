@@ -7,6 +7,7 @@
 //
 
 #import "HomepwnerItemCell.h"
+#import <QuartzCore/QuartzCore.h>
 #import "Possession.h"
 
 
@@ -29,7 +30,16 @@
 		[[self contentView] addSubview:nameLabel];
 		[nameLabel release];
 		
-		imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+		imageView = [[UIView alloc] initWithFrame:CGRectZero];
+		[imageView setContentMode:UIViewContentModeScaleAspectFit];
+		
+		imageView.layer.masksToBounds = YES;
+		imageView.layer.cornerRadius = 8.0;
+		
+		imageSubview = [[UIImageView alloc] initWithFrame:CGRectZero];
+		[imageView addSubview:imageSubview];
+		[imageSubview release];
+		
 		[[self contentView] addSubview:imageView];
 		
 		[imageView setContentMode:UIViewContentModeScaleAspectFit];
@@ -68,6 +78,20 @@
 	
 	CGRect innerFrame = CGRectMake(inset, inset, h, h - inset * 2.0);
 	[imageView setFrame:innerFrame];
+	[imageSubview setFrame:imageView.bounds];
+	
+	glossyLayer = [[CAGradientLayer alloc] init];
+	
+	NSArray *colorsArray = [NSArray arrayWithObjects:
+							(id)[[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.35] CGColor],
+							(id)[[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.1] CGColor], nil]; 
+	
+	//[glossyLayer setBackgroundColor:[[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:.35] CGColor]];
+	[glossyLayer setColors:colorsArray];
+	[glossyLayer setOpacity:0.4];
+	[glossyLayer setFrame:[[imageView layer] bounds]];
+	
+	[[imageView layer] insertSublayer:glossyLayer atIndex: 2];
 	
 	innerFrame.origin.x += innerFrame.size.width + inset;
 	innerFrame.size.width = w - (h + valueWidth + inset * 4.0);
@@ -90,7 +114,7 @@
 		[nameLabel setText:[possession possessionName]];
 	}
 	
-	[imageView setImage:[possession thumbnail]];
+	[imageSubview setImage:[possession thumbnail]];
 
  	
 
@@ -106,6 +130,7 @@
 
 
 - (void)dealloc {
+	[glossyLayer release];
     [super dealloc];
 }
 

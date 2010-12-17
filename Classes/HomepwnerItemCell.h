@@ -28,5 +28,7 @@
 
 - (void)setPossession:(Possession *)possession;
 - (void)accessoryViewTapped:(Possession *)possession;
+void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor,
+						CGColorRef endColor);
 
 @end

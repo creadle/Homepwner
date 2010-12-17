@@ -66,6 +66,30 @@
 
 }
 
+void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor,
+						CGColorRef endColor)
+{
+	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGFloat locations[] = { 0.0, 1.0 };
+	
+    NSArray *colors = [NSArray arrayWithObjects:(id)startColor, (id)endColor, nil];
+	
+    CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, 
+														(CFArrayRef) colors, locations);
+	
+	CGPoint startPoint = CGPointMake(CGRectGetMidX(rect), CGRectGetMinY(rect));
+	CGPoint endPoint = CGPointMake(CGRectGetMidX(rect), CGRectGetMaxY(rect));
+	
+	CGContextSaveGState(context);
+	CGContextAddRect(context, rect);
+	CGContextClip(context);
+	CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, 0);
+	CGContextRestoreGState(context);
+	
+	CGGradientRelease(gradient);
+	CGColorSpaceRelease(colorSpace);
+}
+
 - (void)layoutSubviews
 {
 	[super layoutSubviews];
@@ -80,6 +104,8 @@
 	[imageView setFrame:innerFrame];
 	[imageSubview setFrame:imageView.bounds];
 	
+/*	NSLog(@"Layer count %d", [[[imageView layer] sublayers] count]);
+	
 	glossyLayer = [[CAGradientLayer alloc] init];
 	
 	NSArray *colorsArray = [NSArray arrayWithObjects:
@@ -91,7 +117,21 @@
 	[glossyLayer setOpacity:0.4];
 	[glossyLayer setFrame:[[imageView layer] bounds]];
 	
-	[[imageView layer] insertSublayer:glossyLayer atIndex: 2];
+	if ([[[imageView layer] sublayers] count] < 2) {
+		[[imageView layer] insertSublayer:glossyLayer atIndex: 2];
+	}
+
+	//[[imageView layer] insertSublayer:glossyLayer atIndex: 2];*/
+	
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	CGColorRef glossColor1 = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.35] CGColor];
+	CGColorRef glossColor2 = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.1] CGColor];
+	
+	CGRect topHalf = CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y, 
+								imageView.frame.size.width, ((CGFloat)imageView.frame.size.height) / 2.0);
+	
+	drawLinearGradient(context, topHalf, glossColor1, glossColor2);
+	
 	
 	innerFrame.origin.x += innerFrame.size.width + inset;
 	innerFrame.size.width = w - (h + valueWidth + inset * 4.0);
